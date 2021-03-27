@@ -43,17 +43,17 @@ def getSongArtistList(values):
         print('No data found.')
         return songArtistList
     else:
-        print('Song, Artist:')
+        # print('Song, Artist:')
         for row in values:
             # Print columns A and C, which correspond to indices 0 and 2.
             if row[0] != "" and row[1] != "":
-                print(f"{row[0]} - {row[1]}")
+                # print(f"{row[0]} - {row[1]}")
                 # print('%s - %s' % (row[0], row[1]))
                 # songArtistList.append("%s %s" % (row[0], row[1]))
                 songArtistList.append(f"{row[0]} {row[1]}")
     return songArtistList
 
-    print(len(getSongArtistList()))
+    # print(len(getSongArtistList()))
 
 
 
@@ -65,7 +65,8 @@ def main():
     result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
                                 range=SAMPLE_RANGE_NAME).execute()
     values = result.get('values', []) # gets a list of requested values | single row: [row[0], row[1], ...]
-    getSongArtistList(values)
+    # print(getSongArtistList(values))
+    return getSongArtistList(values)
     
 
 
