@@ -51,7 +51,7 @@ def parseCSV(f):
     if f == "":
         print("No file given, defaulting to songsFromTiktok.csv")
         f = "songsFromTikTok.csv"
-    with open("songsFromTikTok.csv", "r", encoding="UTF-8") as f:
+    with open(f, "r", encoding="UTF-8") as f:
         csvreader = csv.reader(f, delimiter=',')
         queries = []
         for row in csvreader:
@@ -103,27 +103,28 @@ def processFailedQueries(failedSongs, sp, playlist_id):
     sp (sp): Sp (spotipy) object that holds credentials
     playlist_id (str): unique identifier string of the playlist   
     """
-    fixSongs = input(f"{len(failedSongs)} failed to be added, would you like to try to fix them?\ny/n\n").lower()
-    if fixSongs == "y":
-        fixedQueries = []
-        for song in failedSongs:
-            fixed = song
-            while True:
-                print(f"The query \"{fixed}\" failed.")
-                fixed = input("input the correct search query or \"skip\" if no query would be correct: ").strip()
-                uri = sp.getSearchResult(fixed)
-                if uri != None:
-                    fixedQueries.append(uri)
-                    print(f"Successfully added {fixed}")
-                else:
-                    choice = input(f"Query, {fixed} still failed, would you like to skip?\ny/n\n").lower()
-                    if choice == "y":
-                        continue
+    if len(failedSongs) > 0:
+        fixSongs = input(f"{len(failedSongs)} failed to be added, would you like to try to fix them?\ny/n\n").lower()
+        if fixSongs == "y":
+            fixedQueries = []
+            for song in failedSongs:
+                fixed = song
+                while True:
+                    print(f"The query \"{fixed}\" failed.")
+                    fixed = input("input the correct search query or \"skip\" if no query would be correct: ").strip()
+                    uri = sp.getSearchResult(fixed)
+                    if uri != None:
+                        fixedQueries.append(uri)
+                        print(f"Successfully added {fixed}")
                     else:
-                        break
-        sp.add_to_playlist(playlist_id, fixedQueries)
-    print("Here is a link to your playlist! Just select options and click \"Add to my library\"")
-    print(print(f"https://open.spotify.com/playlist/{playlist_id}"))
+                        choice = input(f"Query, {fixed} still failed, would you like to skip?\ny/n\n").lower()
+                        if choice == "y":
+                            continue
+                        else:
+                            break
+            sp.add_to_playlist(playlist_id, fixedQueries)
+    print("Here is a link to your playlist!")
+    print(f"https://open.spotify.com/playlist/{playlist_id}")
     print("Goodbye")
 
 
