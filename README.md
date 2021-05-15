@@ -24,3 +24,8 @@ You should format your CSV as \<song\>, \<artist\> for each line
 The origin of this project was to use both Spotify and Google Suite api to convert a spreadsheet I own into a playlist with ease. 
 I then converted it to take in a CSV input to avoid going through two api authentications.
 Here is the original spreadsheet: https://docs.google.com/spreadsheets/d/1kzdECh1SB48M5cRr51EH-mkrJIGgoUfwnmRtB4U4cus/edit?usp=sharing
+
+##### What other features do you plan to implement?
+I have a short list of features I'm working on
+1. Turn this into a full stack app using Django and ReactJS so users can type in many searches at once and create the playlist on the spot
+2.  Allow both .txt and .csv files to be used as inputFiles
