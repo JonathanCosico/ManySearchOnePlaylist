@@ -1,5 +1,5 @@
 # ManySearchOnePlaylist
-Convert a CSV file into a spotify playlist
+Converts a CSV file into a spotify playlist
 
 # How to use
 This program is executed via command line.
