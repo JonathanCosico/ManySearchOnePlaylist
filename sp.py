@@ -1,11 +1,11 @@
 # using authorization code flow
 import os
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 # Set environment variables
 os.environ["SPOTIPY_CLIENT_ID"] = ""
 os.environ["SPOTIPY_CLIENT_SECRET"] = ""
-os.environ["SPOTIPY_REDIRECT_URI"] = "http://localhost"
+os.environ["SPOTIPY_REDIRECT_URI"] = "http://localhost:8000"
 os.environ["SPOTIFY_USERNAME"] = ""
 SPOTIFY_USERNAME=""
 
@@ -16,9 +16,14 @@ def init():
         items = [line.strip() for line in f.readlines()]
         os.environ["SPOTIPY_CLIENT_ID"] = items[0]
         os.environ["SPOTIPY_CLIENT_SECRET"] = items[1]
-        SPOTIFY_USERNAME = items[2]
+        # SPOTIFY_USERNAME = items[2]
+    # scope = "playlist-modify-public, playlist-modify-private, user-library-read, user-top-read"
+    # sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+    # return sp
     scope = "playlist-modify-public, playlist-modify-private, user-library-read, user-top-read"
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+    SPOTIFY_USERNAME = sp.me()['id']
+    print(sp.me()['id'])
     return sp
 
 class Sp:
@@ -30,13 +35,14 @@ class Sp:
     # TODO - better parse search to run more efficiently
     def getSearchResult(self, query: str, amt: int=1) -> str:
         uri = ""
-        # print(query)
-        result = self.sp.search(q=query, limit=amt)
+        print(query)
+        result = self.sp.search(q=query, limit=5)
         try: 
             firstTrack = result['tracks']['items'][0]['uri']
             return firstTrack
         except IndexError:
             print("Search invalid")
+            
     # creates playlist
     # gets first playlists' id
     # returns: playlist id
