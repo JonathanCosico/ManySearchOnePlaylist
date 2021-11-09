@@ -17,7 +17,7 @@ def processCmdLine(argv):
     argv (list): list of command line arguements
 
     Returns:
-    str: string of name of .csv file
+    str: string of name of file
     
     """
     inputfile = ""
@@ -37,7 +37,7 @@ def processCmdLine(argv):
     # print("input", inputfile)
     return inputfile
 
-def parseCSV(f):
+def parseFile(fileName):
     """Takes in a .csv file (f) and turns them 
     into spotipy-friendly search queries
     
@@ -48,17 +48,22 @@ def parseCSV(f):
     list: list of strings parsed from the csv file
 
     """
-    if f == "":
+    if fileName == "":
         print("No file given, defaulting to songsFromTiktok.csv")
-        f = "songsFromTikTok.csv"
-    with open(f, "r", encoding="UTF-8") as f:
-        csvreader = csv.reader(f, delimiter=',')
-        queries = []
-        for row in csvreader:
-            search = ' '.join(row)
-            # print(search)
-            queries.append(search)
-        return queries
+        fileName = "songsFromTikTok.csv"
+    if ".csv" in fileName:
+        with open(fileName, "r", encoding="UTF-8") as f:
+            csvreader = csv.reader(f, delimiter=',')
+            queries = []
+            for row in csvreader:
+                search = ' '.join(row)
+                # print(search)
+                queries.append(search)
+            return queries
+    elif ".txt" in fileName:
+        with open(fileName, "r", encoding="UTF-8") as f:
+            lines = f.readlines()
+            return [line.strip() for line in lines]
 
 def processInput(queries):
     """Processes a list of queries to be put
@@ -75,7 +80,7 @@ def processInput(queries):
     """
     sp = spt.Sp()
     playlist_id = sp.create_playlist(input("Enter your playlist name: "))
-    sheetList = parseCSV(queries)
+    sheetList = parseFile(queries)
     uris = []
     failedSongs = []
     for query in sheetList:
@@ -113,19 +118,23 @@ def processFailedQueries(failedSongs, sp, playlist_id):
                     print(f"The query \"{fixed}\" failed.")
                     fixed = input("input the correct search query or \"skip\" if no query would be correct: ").strip()
                     uri = sp.getSearchResult(fixed)
+                    if fixed == "skip":
+                        break
                     if uri != None:
                         fixedQueries.append(uri)
                         print(f"Successfully added {fixed}")
+                        break
                     else:
                         choice = input(f"Query, {fixed} still failed, would you like to skip?\ny/n\n").lower()
                         if choice == "y":
                             continue
                         else:
                             break
-            sp.add_to_playlist(playlist_id, fixedQueries)
+            if len(fixedQueries) > 0:
+                sp.add_to_playlist(playlist_id, fixedQueries)
     print("Here is a link to your playlist!")
     print(f"https://open.spotify.com/playlist/{playlist_id}")
-    print("Goodbye")
+    print("Goodbye :D")
 
 
 def main(argv):
@@ -137,10 +146,13 @@ def main(argv):
     inputfile = processCmdLine(argv)
     failedInputs, sp, playlist_id = processInput(inputfile)
     processFailedQueries(failedInputs, sp, playlist_id)
+
     
 
 if __name__ == "__main__":
     main(sys.argv[1:])
+    
+
 
 
 

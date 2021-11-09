@@ -28,4 +28,8 @@ Here is the original spreadsheet: https://docs.google.com/spreadsheets/d/1kzdECh
 ##### What other features do you plan to implement?
 I have a short list of features I'm working on
 1. Turn this into a full stack app using Django and ReactJS so users can type in many searches at once and create the playlist on the spot
-2.  Allow both .txt and .csv files to be used as inputFiles
+2. Allow both .txt and .csv files to be used as inputFiles
+
+##### Changelog
+11/09/2021  - Allow both .txt and .csv files to be used as input
+            - Tested program on real txt file input, est. 91% accuracy (based on expected and actual result of search query given "artist title")
