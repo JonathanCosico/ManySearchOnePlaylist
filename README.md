@@ -2,8 +2,14 @@
 Converts a CSV file into a spotify playlist
 
 # How to use
+SETUP:
+1. create a spotify developer account using personal spotify account
+2. create a project and store, in a .txt file, Client ID on the first line and Client Secret on the second line (mine was named "spotifyCreds.txt")
+3. Go to "EDIT SETTINGS" and under "Redirect URIs" add the url http://localhost:8000
+4. Go to "USERS AND ACCESS" to allow your account to access your app
+
 This program is executed via command line.
-Give the program the path to your CSV file.
+Give the program the path to your file.
 ```python
 > python main.py -i <inputFile>
 ```
@@ -17,10 +23,11 @@ If you don't give it a file, the program will default to songsFromTiktok.csv
 
 
 # FAQ
-##### How should my CSV be formatted?
-You should format your CSV as \<song\>, \<artist\> for each line
+##### How should my file be formatted?
+\<song\>, \<artist\> for the best results (approximate 95% success rate. since it's dependent on the spotify's search algorithm, just typing "enough" could also work. for example: "Joji - Demons" could be searched just by "joji de")
 
-##### Why did the program only take CSV files?
+
+##### Why did the program used to only take CSV files?
 The origin of this project was to use both Spotify and Google Suite api to convert a spreadsheet I own into a playlist with ease. 
 I then converted it to take in a CSV input to avoid going through two api authentications.
 Here is the original spreadsheet: https://docs.google.com/spreadsheets/d/1kzdECh1SB48M5cRr51EH-mkrJIGgoUfwnmRtB4U4cus/edit?usp=sharing
@@ -28,7 +35,6 @@ Here is the original spreadsheet: https://docs.google.com/spreadsheets/d/1kzdECh
 ##### What other features do you plan to implement?
 I have a short list of features I'm working on
 1. Turn this into a full stack app using Django and ReactJS so users can type in many searches at once and create the playlist on the spot
-2. Allow both .txt and .csv files to be used as inputFiles
 
 ##### Changelog
 11/09/2021  
