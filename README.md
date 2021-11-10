@@ -1,5 +1,5 @@
 # ManySearchOnePlaylist
-Converts a CSV file into a spotify playlist
+Converts a .csv/.txt file of search queries or song info into a spotify playlist
 
 # How to use
 SETUP:
